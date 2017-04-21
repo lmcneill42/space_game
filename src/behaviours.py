@@ -863,13 +863,13 @@ class Camera(Component):
     @zoom.setter
     def zoom(self, value):
         """ Set the zoom level. """
-	# zoom can now be negative, not that the if condition made any difference at all before
+        # zoom can now be negative, not that the if condition made any difference at all before
         # if value > 0:
         self.__zoom = int( value )
 
     @property
     def zoom_factor(self):
-	""" get the multiplier for animation sizes due to zoom """
+        """ get the multiplier for animation sizes due to zoom """
         return 2 ** ( self.__zoom * self.__zoom_step )
 
     @property
