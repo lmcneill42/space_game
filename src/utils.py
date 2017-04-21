@@ -811,8 +811,8 @@ class ResourceLoader(object):
 
         for config_or_dir in os.listdir(dirname):
 
-        # Get the name of the config or subdir relative to the configs
-        # directory.
+            # Get the name of the config or subdir relative to the configs
+            # directory.
             rel_name = config_or_dir
             if rel_dir is not None:
                 rel_name = os.path.join(rel_dir, rel_name)
@@ -820,8 +820,8 @@ class ResourceLoader(object):
             # Get the actual filename of the config / dir
             config_or_dir_path = os.path.join(dirname, config_or_dir)
 
-        # If it's a config file, yield the relative name. Otherwise, walk
-        # the directory.
+            # If it's a config file, yield the relative name. Otherwise, walk
+            # the directory.
             if os.path.isfile(config_or_dir_path):
                 fname, ext = os.path.splitext(config_or_dir_path)
                 if ext.lower() == ".txt":
