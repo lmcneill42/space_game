@@ -77,11 +77,11 @@ class PlayerInputHandler(InputHandler):
 
     def zoom_in(self):
         """ Zoom the camera in."""
-        self.game_services.get_camera().zoom += 0.1
+        self.game_services.get_camera().zoom += 1
 
     def zoom_out(self):
         """ Zoom the camera out. """
-        self.game_services.get_camera().zoom -= 0.1
+        self.game_services.get_camera().zoom -= 1
 
     def next_weapon(self):
         """ Cycle to the next weapon. """

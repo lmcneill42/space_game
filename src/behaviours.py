@@ -772,7 +772,8 @@ class Camera(Component):
         self.__vertical_shake = 0
         self.__horizontal_shake = 0
         self.__tracking = None
-        self.__zoom = 1
+        self.__zoom = 0
+        self.__zoom_step = 1/2
 
     def track(self, entity):
         """ Make the camera follow a particular entity. """
@@ -785,19 +786,19 @@ class Camera(Component):
     def world_to_screen(self, world):
         """ Convert from world coordinates to screen coordinates. """
         centre = Vec2d(self.__screen.get_size())/2
-        return self.__zoom * (world - self.position) + centre
+        return self.zoom_factor * (world - self.position) + centre
 
     def screen_to_world(self, screen):
         """ Convert from screen coordinates to world coordinates. """
         centre = Vec2d(self.__screen.get_size())/2
-        return (screen - centre) / self.__zoom + self.position
+        return (screen - centre) / self.zoom_factor + self.position
 
     def check_bounds_world(self, bbox):
         """ Check whether a world space bounding box is on the screen. """
         if bbox is None: return True
         self_box = self.__screen.get_rect()
-        self_box.width /= self.__zoom
-        self_box.height /= self.__zoom
+        self_box.width /= self.zoom_factor
+        self_box.height /= self.zoom_factor
         self_box.center = self.position
         return bbox.colliderect(self_box)
 
@@ -862,5 +863,16 @@ class Camera(Component):
     @zoom.setter
     def zoom(self, value):
         """ Set the zoom level. """
-        if value > 0:
-            self.__zoom = value
+	# zoom can now be negative, not that the if condition made any difference at all before
+        # if value > 0:
+        self.__zoom = int( value )
+
+    @property
+    def zoom_factor(self):
+	""" get the multiplier for animation sizes due to zoom """
+        return 2 ** ( self.__zoom * self.__zoom_step )
+
+    @property
+    def zoom_step(self):
+        """ get the zoom adjustment factor """
+        return self.__zoom_step

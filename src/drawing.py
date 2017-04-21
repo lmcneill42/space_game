@@ -233,8 +233,8 @@ class Drawable(Component):
         img = anim.frames[anim.timer.pick_index(len(anim.frames))]
         if (body.orientation != 0):
             img = pygame.transform.rotate(img, -body.orientation)
-        if (camera.zoom != 1):
-            size = Vec2d(img.get_size())*camera.zoom
+        if (camera.zoom != 0):
+            size = Vec2d(img.get_size())* camera.zoom_factor
             img = pygame.transform.scale(img, (int(size[0]), int(size[1])))
         screen_pos = camera.world_to_screen(body.position) - Vec2d(img.get_rect().center)
         camera.surface().blit(img, screen_pos)
