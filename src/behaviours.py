@@ -490,9 +490,21 @@ def apply_damage_to_entity(damage, entity):
         hitpoints.receive_damage(damage)
 
 class DamageOnContact(Component):
+    def match_velocities(self, entity):
+        """ Match speeds with the given entity. """
+        b1 = self.get_component(Body)
+        b2 = entity.get_component(Body)
+        if b1 is not None and b2 is not None:
+            b1.velocity = b2.velocity
     def apply_damage(self, entity):
+        """ Apply damage to the entity and kill ourselves if necessary. """
         damage = self.config["damage"]
         if self.config.get_or_default("destroy_on_hit", True):
+            # If our entity is about to die we might be about to spawn an
+            # explosion. If that's the case it should be travelling at the
+            # same speed as the thing we hit. So match velocities before
+            # our entity is killed.
+            self.match_velocities(entity)
             self.entity.kill()
         apply_damage_to_entity(damage, entity)
 
