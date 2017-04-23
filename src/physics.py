@@ -468,11 +468,10 @@ class Thruster(object):
 
     def moment_with_thrust(self, thrust):
         """ Given a thrust amount, get the resulting torque. """
-        # moment = r * F
-        # where r = distance, and F is force in normal direction.
-        f = self.force_with_thrust(thrust)
-        normal_direction = self.__position.perpendicular_normal()
-        return self.__position.length * normal_direction.dot(f)
+        # moment of force = r × F
+        # where r is the distance vector from centre of mass to thruster,
+        # F is the force vector and × denotes the cross product
+        return self.__position.cross( self.force_with_thrust( thrust ) )
 
     def world_position(self, body):
         """ Get the world-space position of the thruster. """
